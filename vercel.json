@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "builds": [
+    { "src": "api/send-notification.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "firebase-messaging-sw.js", "use": "@vercel/static" },
+    { "src": "manifest.json", "use": "@vercel/static" },
+    { "src": ".well-known/assetlinks.json", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/api/send-notification", "dest": "/api/send-notification.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
