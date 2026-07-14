@@ -2208,6 +2208,8 @@ function WorkerEntry({ entries, addEntry, deleteEntry, checkoutEntry, updateEntr
     const [dateFilter, setDateFilter] = (0, React.useState)(today());
     const [detailEntry, setDetailEntry] = (0, React.useState)(null);
     const [editMode, setEditMode] = (0, React.useState)(false);
+    const [expandedIds, setExpandedIds] = (0, React.useState)({});
+    const toggleExpand = (id) => setExpandedIds(p => Object.assign({}, p, { [id]: !p[id] }));
     const [eDestination, setEDestination] = (0, React.useState)("");
     const [eCompany, setECompany] = (0, React.useState)("");
     const [eWorkers, setEWorkers] = (0, React.useState)([]);
@@ -2393,21 +2395,45 @@ function WorkerEntry({ entries, addEntry, deleteEntry, checkoutEntry, updateEntr
             React.createElement("div", { className: "ch" },
                 React.createElement("span", { className: "ct" }, dateFilter === todayStr ? "دخلات اليوم" : "دخلات يوم " + dateFilter, " (", filtered.length, ")")),
             filtered.length === 0 ? React.createElement("div", { className: "empty" }, dateFilter === todayStr ? "لا توجد دخلات عمال اليوم" : "لا توجد دخلات عمال في هذا اليوم") : React.createElement("div", null, filtered.map(e => (
-                React.createElement("div", { key: e.id, className: "card", style: { marginBottom: 10, borderColor: e.status === "in" ? "var(--blue)40" : "var(--bdr2)", cursor: "pointer" }, onClick: () => { setDetailEntry(e); setEditMode(false); } },
-                    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 } },
+                React.createElement("div", { key: e.id, className: "card", style: { marginBottom: 10, borderColor: e.status === "in" ? "var(--blue)40" : "var(--bdr2)" } },
+                    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, cursor: "pointer" }, onClick: () => toggleExpand(e.id) },
                         React.createElement("div", { style: { flex: 1 } },
                             React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } },
                                 React.createElement("span", { className: "bdg" }, "🧰 ", e.destination),
-                                React.createElement("span", { className: "bdg", style: e.status === "in" ? { background: "rgba(80,160,255,.15)", color: "#5fb3ff" } : { background: "rgba(255,255,255,.08)", color: "var(--txt3)" } }, e.status === "in" ? "🟢 جوه" : "⚪ خرج")),
-                            e.company && React.createElement("div", { style: { fontSize: 12, color: "var(--txt3)", marginTop: 4 } }, e.company),
-                            React.createElement("div", { style: { marginTop: 8, display: "flex", flexWrap: "wrap", gap: 6 } }, (e.workers || []).map((w, j) => (React.createElement("span", { key: j, style: { fontSize: 13, background: "var(--s2)", padding: "4px 9px", borderRadius: 20 } }, w.idPhoto ? "🪪 " : "", w.name)))),
-                            (e.vehicles || []).length > 0 && React.createElement("div", { style: { marginTop: 6, display: "flex", flexWrap: "wrap", gap: 6 } }, e.vehicles.map((v, j) => (React.createElement("span", { key: j, style: { fontSize: 13, background: "var(--s2)", padding: "4px 9px", borderRadius: 20, fontFamily: "monospace" } }, "🚗 ", v.plate, v.color ? " · " + v.color : "")))),
-                            React.createElement("div", { className: "chat-meta", style: { marginTop: 8 } }, "دخول: ", fmt(e.timeIn), " — ", e.staffNameIn, e.timeOut && React.createElement(React.Fragment, null, React.createElement("br", null), "خروج: ", fmt(e.timeOut), " — ", e.staffNameOut))),
+                                React.createElement("span", { className: "bdg", style: e.status === "in" ? { background: "rgba(80,160,255,.15)", color: "#5fb3ff" } : { background: "rgba(255,255,255,.08)", color: "var(--txt3)" } }, e.status === "in" ? "🟢 جوه" : "⚪ خرج"),
+                                React.createElement("span", { style: { fontSize: 12, color: "var(--txt3)" } }, "👷 ", (e.workers || []).length, " عامل")),
+                            e.company && React.createElement("div", { style: { fontSize: 12, color: "var(--txt3)", marginTop: 4 } }, "🏢 ", e.company),
+                            React.createElement("div", { className: "chat-meta", style: { marginTop: 6 } }, "دخول: ", fmt(e.timeIn), " — ", e.staffNameIn, e.timeOut && React.createElement(React.Fragment, null, React.createElement("br", null), "خروج: ", fmt(e.timeOut), " — ", e.staffNameOut))),
                         React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 }, onClick: ev => ev.stopPropagation() },
-                            React.createElement("button", { className: "btn bxs bb", onClick: () => { setDetailEntry(e); setEditMode(false); } }, "👁️ التفاصيل"),
+                            React.createElement("button", { className: `btn bsm ${expandedIds[e.id] ? "bb" : "bgh"}`, onClick: () => toggleExpand(e.id) }, expandedIds[e.id] ? "▲ إخفاء" : "📋 عرض البيانات"),
                             e.status === "in" && React.createElement("button", { className: "btn bsm bb", onClick: () => checkoutEntry(e.id, e.destination) }, "🚪 خروج"),
-                            isAdmin && React.createElement("button", { className: "btn bxs br", onClick: () => deleteEntry(e.id) }, "🗑️"))))
-            )))),
+                            isAdmin && React.createElement("button", { className: "btn bxs br", onClick: () => deleteEntry(e.id) }, "🗑️"))),
+                    expandedIds[e.id] && React.createElement("div", { style: { marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--bdr)" } },
+                        React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--txt2)", marginBottom: 10 } }, "👷 بيانات العمال (", (e.workers || []).length, ")"),
+                        (e.workers || []).length === 0
+                            ? React.createElement("div", { className: "empty" }, "لا يوجد عمال مسجلين")
+                            : React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } }, (e.workers || []).map((w, j) =>
+                                React.createElement("div", { key: j, style: { display: "flex", alignItems: "center", gap: 12, background: "var(--s2)", borderRadius: "var(--rs)", padding: 10 } },
+                                    w.idPhoto
+                                        ? React.createElement("img", { src: w.idPhoto, style: { width: 65, height: 65, objectFit: "cover", borderRadius: 8, border: "1px solid var(--bdr2)", cursor: "pointer" }, onClick: () => { setDetailEntry(e); setEditMode(false); } })
+                                        : React.createElement("div", { style: { width: 65, height: 65, borderRadius: 8, background: "var(--s3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: "var(--txt3)" } }, "🪪"),
+                                    React.createElement("div", null,
+                                        React.createElement("div", { style: { fontWeight: 700, fontSize: 14 } }, w.name || "—"),
+                                        React.createElement("div", { style: { fontSize: 11, color: "var(--txt3)", marginTop: 2 } }, w.idPhoto ? "✅ بطاقة مصورة" : "❌ لا توجد صورة بطاقة"))))),
+                        (e.vehicles || []).length > 0 && React.createElement(React.Fragment, null,
+                            React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--txt2)", marginTop: 14, marginBottom: 8 } }, "🚗 العربيات (", (e.vehicles || []).length, ")"),
+                            React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } }, (e.vehicles || []).map((v, j) =>
+                                React.createElement("div", { key: j, style: { background: "var(--s2)", borderRadius: "var(--rs)", padding: 10 } },
+                                    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 6 } },
+                                        React.createElement("span", { style: { fontFamily: "monospace", fontWeight: 700, fontSize: 14 } }, "🚗 ", v.plate || "—", v.color ? " · " + v.color : ""),
+                                        v.ownerName && React.createElement("span", { style: { fontSize: 12, color: "var(--txt3)" } }, "👤 ", v.ownerName)),
+                                    (v.idPhoto || v.licensePhoto) && React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" } },
+                                        v.idPhoto && React.createElement("img", { src: v.idPhoto, style: { maxHeight: 80, borderRadius: 8, border: "1px solid var(--bdr2)" } }),
+                                        v.licensePhoto && React.createElement("img", { src: v.licensePhoto, style: { maxHeight: 80, borderRadius: 8, border: "1px solid var(--bdr2)" } })))))),
+                        React.createElement("div", { style: { marginTop: 12, display: "flex", gap: 8 } },
+                            React.createElement("button", { className: "btn bsm bb", onClick: () => { setDetailEntry(e); setEditMode(false); } }, "👁️ التفاصيل الكاملة"),
+                            isAdmin && React.createElement("button", { className: "btn bsm bb", onClick: () => { setDetailEntry(e); startEdit(); } }, "✏️ تعديل")))
+                ))))),
         detailEntry && (React.createElement("div", { className: "ov", onClick: () => { setDetailEntry(null); setEditMode(false); } },
             React.createElement("div", { className: "modal modal-lg", onClick: ev => ev.stopPropagation() },
                 React.createElement("div", { className: "mt" }, editMode ? "✏️ تعديل الدخلة — " : "تفاصيل الدخلة — ", editMode ? eDestination : detailEntry.destination),
