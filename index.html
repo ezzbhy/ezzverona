@@ -3038,15 +3038,19 @@ function App() {
                 setDailyLogState(arr);
             }, 500));
 
-            // workerlogs (real-time collection)
-            unsubs.push(fbListenCol("workerlogs", arr => {
-                setWorkerLogsState(arr);
-            }, 500));
+            // workerlogs (real-time collection — uses timeIn not time)
+            unsubs.push((() => {
+                const ref = FS().collection(getDB(), "workerlogs");
+                const q = FS().query(ref, FS().orderBy("timeIn", "desc"), FS().limit(500));
+                return FS().onSnapshot(q, snap => setWorkerLogsState(snap.docs.map(d => d.data())));
+            })());
 
-            // residentvisits (real-time collection)
-            unsubs.push(fbListenCol("residentvisits", arr => {
-                setResidentVisitsState(arr);
-            }, 500));
+            // residentvisits (real-time collection — uses timeIn not time)
+            unsubs.push((() => {
+                const ref = FS().collection(getDB(), "residentvisits");
+                const q = FS().query(ref, FS().orderBy("timeIn", "desc"), FS().limit(500));
+                return FS().onSnapshot(q, snap => setResidentVisitsState(snap.docs.map(d => d.data())));
+            })());
 
             // currentUser من localStorage
             const savedUser = LS.get("currentUser", null);
