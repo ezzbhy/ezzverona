@@ -88,13 +88,18 @@ async function fbSet(docPath, data) {
 
 function fbListen(docPath, cb) {
     const ref = FS().doc(getDB(), docPath);
-    return FS().onSnapshot(ref, snap => cb(snap.exists() ? snap.data() : null));
+    return FS().onSnapshot(ref, snap => cb(snap.exists() ? snap.data() : null), err => {
+        console.error("fbListen error:", err);
+        alert("خطأ في الاتصال بقاعدة البيانات (الصلاحيات). تأكد من قواعد Firebase.");
+    });
 }
 
 function fbListenCol(colPath, cb, limitN = 500) {
     const ref = FS().collection(getDB(), colPath);
     const q = FS().query(ref, FS().orderBy("time", "desc"), FS().limit(limitN));
-    return FS().onSnapshot(q, snap => cb(snap.docs.map(d => d.data())));
+    return FS().onSnapshot(q, snap => cb(snap.docs.map(d => d.data())), err => {
+        console.error("fbListenCol error:", err);
+    });
 }
 
 async function fbAddLog(entry) {
