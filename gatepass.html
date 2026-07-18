@@ -1,0 +1,2047 @@
+
+
+    /* ====== ANIMATIONS ====== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes toastIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes toastOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+      50% { box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent); }
+    }
+    @keyframes scanline {
+      0% { top: -100%; }
+      100% { top: 100%; }
+    }
+    @keyframes scan {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    @keyframes borderGlow {
+      0%, 100% { border-color: rgba(0, 212, 255, 0.3); }
+      50% { border-color: rgba(0, 212, 255, 0.8); }
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 1024px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-right: 0; }
+      .mobile-overlay { display: block; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .header { padding: 12px 16px; }
+      .page-title { font-size: 1.3rem; }
+      .content { padding: 16px; }
+      .search-box { width: 160px; }
+      .search-box:focus { width: 200px; }
+      .form-row { grid-template-columns: 1fr; }
+      .modal-content { width: 95%; margin: 20px; }
+      .table-responsive { font-size: 0.85rem; }
+      .action-buttons { flex-wrap: wrap; }
+    }
+    @media (max-width: 480px) {
+      .header { flex-wrap: wrap; gap: 10px; }
+      .search-box { width: 100%; order: 3; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .btn { padding: 8px 14px; font-size: 0.8rem; }
+    }
+
+    /* ====== PRINT ====== */
+    @media print {
+      .sidebar, .header, .action-buttons, .search-box, .mobile-menu-btn { display: none !important; }
+      .main-content { margin: 0; padding: 0; }
+      .content { padding: 0; }
+      .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+      body { background: white; color: black; }
+    }
+
+    /* ====== SCROLLBAR ====== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ====== SELECTION ====== */
+    ::selection { background: var(--accent); color: var(--bg-dark); }
+
+    /* ====== LOADING SKELETON ====== */
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-light) 50%, var(--bg-card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: var(--radius);
+    }
+
+    /* ====== SCANNER OVERLAY ====== */
+    .scanner-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 3000;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+    }
+    .scanner-box {
+      width: 300px; height: 200px; border: 2px solid var(--accent); border-radius: var(--radius);
+      position: relative; overflow: hidden; background: rgba(0,0,0,0.5);
+    }
+    .scanner-line {
+      position: absolute; left: 0; right: 0; height: 2px; background: var(--accent);
+      box-shadow: 0 0 10px var(--accent); animation: scanline 2s linear infinite;
+    }
+    .scanner-corner {
+      position: absolute; width: 20px; height: 20px; border: 3px solid var(--accent);
+    }
+    .scanner-corner.tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+    .scanner-corner.tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+    .scanner-corner.bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+    .scanner-corner.br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+    /* ====== EMPTY STATE ====== */
+    .empty-state {
+      text-align: center; padding: 60px 20px; color: var(--text-muted);
+    }
+    .empty-state i { font-size: 4rem; margin-bottom: 20px; opacity: 0.5; }
+    .empty-state h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--text); }
+    .empty-state p { font-size: 0.95rem; }
+
+    /* ====== BADGE ====== */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
+      border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+    }
+    .badge-success { background: rgba(0, 255, 136, 0.15); color: var(--success); }
+    .badge-warning { background: rgba(255, 170, 0, 0.15); color: var(--warning); }
+    .badge-danger { background: rgba(255, 50, 50, 0.15); color: var(--danger); }
+    .badge-info { background: rgba(0, 212, 255, 0.15); color: var(--accent); }
+
+    /* ====== AVATAR ====== */
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem; color: white;
+    }
+
+    /* ====== PROGRESS BAR ====== */
+    .progress-bar {
+      width: 100%; height: 6px; background: var(--bg-light); border-radius: 3px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.8s ease; position: relative; overflow: hidden;
+    }
+    .progress-bar-fill::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: scan 2s linear infinite;
+    }
+
+    /* ====== TOOLTIP ====== */
+    [data-tooltip] { position: relative; }
+    [data-tooltip]::after {
+      content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-5px);
+      background: var(--bg-card); color: var(--text); padding: 6px 12px; border-radius: 6px;
+      font-size: 0.75rem; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.2s;
+      border: 1px solid var(--border); box-shadow: var(--shadow); z-index: 100;
+    }
+    [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(-8px); }
+
+    /* ====== DARK MODE TOGGLE (if needed later) ====== */
+    .theme-toggle {
+      width: 44px; height: 24px; background: var(--bg-light); border-radius: 12px;
+      position: relative; cursor: pointer; border: 1px solid var(--border); transition: all 0.3s;
+    }
+    .theme-toggle::after {
+      content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); top: 2px; left: 2px; transition: all 0.3s;
+    }
+    .theme-toggle.active::after { left: 22px; }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-container">
+      <div class="login-logo">
+        <i class="fas fa-shield-halved"></i>
+        <div class="login-logo-text">GatePass</div>
+        <div class="login-logo-sub">نظام إدارة الدخول والخروج الذكي</div>
+      </div>
+      <form class="login-form" id="loginForm">
+        <div class="form-group">
+          <label>اسم المستخدم</label>
+          <div class="input-icon">
+            <i class="fas fa-user"></i>
+            <input type="text" id="loginUsername" placeholder="أدخل اسم المستخدم" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <div class="input-icon">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+          <span>تسجيل الدخول</span>
+          <i class="fas fa-arrow-left"></i>
+        </button>
+      </form>
+      <div class="login-footer">
+        <p>© 2026 GatePass. جميع الحقوق محفوظة.</p>
+        <p style="margin-top:5px;font-size:0.75rem;opacity:0.5;">تصميم وتطوير بأحدث التقنيات</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Container -->
+  <div class="app-container" id="appContainer">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-shield-halved"></i>
+          <span>GatePass</span>
+        </div>
+      </div>
+      <nav class="nav-menu" id="navMenu">
+        <a class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+          <i class="fas fa-chart-pie"></i>
+          <span>لوحة التحكم</span>
+        </a>
+        <a class="nav-item" data-page="residents" onclick="navigateTo('residents')">
+          <i class="fas fa-users"></i>
+          <span>السكان</span>
+        </a>
+        <a class="nav-item" data-page="visitors" onclick="navigateTo('visitors')">
+          <i class="fas fa-user-clock"></i>
+          <span>الزوار</span>
+        </a>
+        <a class="nav-item" data-page="vehicles" onclick="navigateTo('vehicles')">
+          <i class="fas fa-car"></i>
+          <span>المركبات</span>
+        </a>
+        <a class="nav-item" data-page="logs" onclick="navigateTo('logs')">
+          <i class="fas fa-clipboard-list"></i>
+          <span>سجل الحركة</span>
+        </a>
+        <a class="nav-item" data-page="reports" onclick="navigateTo('reports')">
+          <i class="fas fa-file-lines"></i>
+          <span>التقارير</span>
+        </a>
+        <a class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+          <i class="fas fa-gear"></i>
+          <span>الإعدادات</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">
+          <i class="fas fa-right-from-bracket"></i>
+          <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="page-title" id="pageTitle">لوحة التحكم</h1>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="globalSearch" placeholder="بحث سريع..." onkeyup="globalSearch(this.value)">
+          </div>
+          <div class="notification-bell" id="notificationBell" onclick="toggleNotifications()">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge" id="notifBadge">0</span>
+          </div>
+          <div class="user-menu" onclick="toggleUserMenu()">
+            <div class="user-avatar" id="userAvatar">A</div>
+            <div class="user-info">
+              <div class="user-name" id="userName">المسؤول</div>
+              <div class="user-role">مدير النظام</div>
+            </div>
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;color:var(--text-muted);"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content" id="mainContent">
+        <!-- Dashboard Page -->
+        <div class="page-section active" id="dashboardPage">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:linear-gradient(135deg,#00d4ff,#0099cc);">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="statResidents">0</div>
+                <div class="stat-label">إجمالي السكان</div>
+              </div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-trend-up"></i>
+                <span>+12%</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:linear-gradient(135deg,#00ff88,#00cc6a);">
+                <i class="fas fa-user-clock"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="statVisitors">0</div>
+                <div class="stat-label">الزوار النشطون</div>
+              </div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-trend-up"></i>
+                <span>+5%</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:linear-gradient(135deg,#ffaa00,#cc8800);">
+                <i class="fas fa-car"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="statVehicles">0</div>
+                <div class="stat-label">المركبات المسجلة</div>
+              </div>
+              <div class="stat-trend trend-down">
+                <i class="fas fa-arrow-trend-down"></i>
+                <span>-2%</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:linear-gradient(135deg,#ff3366,#cc0044);">
+                <i class="fas fa-door-open"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" id="statEntries">0</div>
+                <div class="stat-label">الدخول اليوم</div>
+              </div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-trend-up"></i>
+                <span>+18%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i> نشاط الدخول والخروج</h3>
+                <div class="card-actions">
+                  <button class="btn btn-sm btn-secondary" onclick="refreshChart()">
+                    <i class="fas fa-rotate"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-container">
+                <canvas id="activityChart"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-clock"></i> آخر النشاطات</h3>
+                <div class="card-actions">
+                  <button class="btn btn-sm btn-secondary" onclick="navigateTo('logs')">
+                    <span>الكل</span>
+                    <i class="fas fa-arrow-left"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="activity-list" id="recentActivity">
+                <!-- Dynamic -->
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-chart-pie"></i> توزيع الزوار</h3>
+              </div>
+              <div class="chart-container" style="height:250px;">
+                <canvas id="visitorChart"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-car"></i> حالة المركبات</h3>
+              </div>
+              <div class="chart-container" style="height:250px;">
+                <canvas id="vehicleChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Residents Page -->
+        <div class="page-section" id="residentsPage">
+          <div class="action-bar">
+            <div class="search-filter">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="residentSearch" placeholder="بحث في السكان..." onkeyup="filterResidents()">
+              </div>
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-primary" onclick="openModal('addResident')">
+                <i class="fas fa-plus"></i>
+                <span>إضافة ساكن</span>
+              </button>
+              <button class="btn btn-secondary" onclick="exportData('residents')">
+                <i class="fas fa-file-export"></i>
+                <span>تصدير</span>
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>رقم الوحدة</th>
+                    <th>رقم الهاتف</th>
+                    <th>نوع السكن</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="residentsTable">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination" id="residentsPagination">
+              <!-- Dynamic -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Visitors Page -->
+        <div class="page-section" id="visitorsPage">
+          <div class="action-bar">
+            <div class="search-filter">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="visitorSearch" placeholder="بحث في الزوار..." onkeyup="filterVisitors()">
+              </div>
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-primary" onclick="openModal('addVisitor')">
+                <i class="fas fa-plus"></i>
+                <span>تسجيل زائر</span>
+              </button>
+              <button class="btn btn-accent" onclick="openScanner()">
+                <i class="fas fa-qrcode"></i>
+                <span>مسح QR</span>
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>رقم الهاتف</th>
+                    <th>الغرض</th>
+                    <th>الساكن المستضيف</th>
+                    <th>وقت الدخول</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="visitorsTable">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination" id="visitorsPagination">
+              <!-- Dynamic -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Vehicles Page -->
+        <div class="page-section" id="vehiclesPage">
+          <div class="action-bar">
+            <div class="search-filter">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="vehicleSearch" placeholder="بحث في المركبات..." onkeyup="filterVehicles()">
+              </div>
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-primary" onclick="openModal('addVehicle')">
+                <i class="fas fa-plus"></i>
+                <span>إضافة مركبة</span>
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>المالك</th>
+                    <th>نوع المركبة</th>
+                    <th>رقم اللوحة</th>
+                    <th>اللون</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="vehiclesTable">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination" id="vehiclesPagination">
+              <!-- Dynamic -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Logs Page -->
+        <div class="page-section" id="logsPage">
+          <div class="action-bar">
+            <div class="search-filter">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="logSearch" placeholder="بحث في السجل..." onkeyup="filterLogs()">
+              </div>
+              <select class="filter-select" id="logTypeFilter" onchange="filterLogs()">
+                <option value="">كل الأنواع</option>
+                <option value="entry">دخول</option>
+                <option value="exit">خروج</option>
+              </select>
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-secondary" onclick="exportData('logs')">
+                <i class="fas fa-file-export"></i>
+                <span>تصدير</span>
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>النوع</th>
+                    <th>الاسم</th>
+                    <th>الوصف</th>
+                    <th>وقت الحدث</th>
+                    <th>المستخدم</th>
+                  </tr>
+                </thead>
+                <tbody id="logsTable">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination" id="logsPagination">
+              <!-- Dynamic -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Reports Page -->
+        <div class="page-section" id="reportsPage">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-file-lines"></i> التقارير والإحصائيات</h3>
+            </div>
+            <div style="padding:30px;">
+              <div class="form-row" style="margin-bottom:20px;">
+                <div class="form-group">
+                  <label>نوع التقرير</label>
+                  <select class="form-control" id="reportType">
+                    <option value="daily">يومي</option>
+                    <option value="weekly">أسبوعي</option>
+                    <option value="monthly">شهري</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>من تاريخ</label>
+                  <input type="date" class="form-control" id="reportFrom">
+                </div>
+                <div class="form-group">
+                  <label>إلى تاريخ</label>
+                  <input type="date" class="form-control" id="reportTo">
+                </div>
+              </div>
+              <div class="action-buttons" style="justify-content:center;">
+                <button class="btn btn-primary" onclick="generateReport()">
+                  <i class="fas fa-file-lines"></i>
+                  <span>إنشاء التقرير</span>
+                </button>
+                <button class="btn btn-secondary" onclick="printReport()">
+                  <i class="fas fa-print"></i>
+                  <span>طباعة</span>
+                </button>
+              </div>
+              <div id="reportResult" style="margin-top:30px;">
+                <!-- Report content -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page-section" id="settingsPage">
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-building"></i> إعدادات المجمع</h3>
+              </div>
+              <div style="padding:20px;">
+                <div class="form-group">
+                  <label>اسم المجمع</label>
+                  <input type="text" class="form-control" id="settingComplexName" value="مجمع النخيل السكني">
+                </div>
+                <div class="form-group">
+                  <label>العنوان</label>
+                  <input type="text" class="form-control" id="settingAddress" value="شارع الملك فهد، الرياض">
+                </div>
+                <div class="form-group">
+                  <label>رقم الهاتف</label>
+                  <input type="text" class="form-control" id="settingPhone" value="0500000000">
+                </div>
+                <button class="btn btn-primary" onclick="saveSettings()">
+                  <i class="fas fa-save"></i>
+                  <span>حفظ الإعدادات</span>
+                </button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-shield-halved"></i> إعدادات الأمان</h3>
+              </div>
+              <div style="padding:20px;">
+                <div class="form-group">
+                  <label>تغيير كلمة المرور</label>
+                  <input type="password" class="form-control" id="settingNewPassword" placeholder="كلمة المرور الجديدة">
+                </div>
+                <div class="form-group">
+                  <label>تأكيد كلمة المرور</label>
+                  <input type="password" class="form-control" id="settingConfirmPassword" placeholder="تأكيد كلمة المرور">
+                </div>
+                <div class="form-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="setting2FA" checked>
+                    <span class="checkmark"></span>
+                    تفعيل المصادقة الثنائية
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="settingEmailNotif" checked>
+                    <span class="checkmark"></span>
+                    إشعارات البريد الإلكتروني
+                  </label>
+                </div>
+                <button class="btn btn-primary" onclick="saveSecuritySettings()">
+                  <i class="fas fa-save"></i>
+                  <span>حفظ</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:20px;">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-database"></i> إدارة البيانات</h3>
+            </div>
+            <div style="padding:20px;">
+              <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="backupData()">
+                  <i class="fas fa-download"></i>
+                  <span>نسخ احتياطي</span>
+                </button>
+                <button class="btn btn-secondary" onclick="document.getElementById('restoreFile').click()">
+                  <i class="fas fa-upload"></i>
+                  <span>استعادة</span>
+                </button>
+                <input type="file" id="restoreFile" style="display:none" onchange="restoreData(this)">
+                <button class="btn btn-danger" onclick="confirmClearData()">
+                  <i class="fas fa-trash"></i>
+                  <span>مسح جميع البيانات</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeAllModals()"></div>
+
+  <!-- Add Resident Modal -->
+  <div class="modal" id="addResidentModal">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fas fa-user-plus"></i> إضافة ساكن جديد</h3>
+      <button class="modal-close" onclick="closeAllModals()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>الاسم الكامل <span style="color:var(--danger)">*</span></label>
+          <input type="text" class="form-control" id="resName" placeholder="أدخل الاسم الكامل" required>
+        </div>
+        <div class="form-group">
+          <label>رقم الهوية</label>
+          <input type="text" class="form-control" id="resId" placeholder="رقم الهوية/الإقامة">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>رقم الهاتف</label>
+          <input type="tel" class="form-control" id="resPhone" placeholder="05xxxxxxxx">
+        </div>
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" class="form-control" id="resEmail" placeholder="example@email.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>رقم الوحدة <span style="color:var(--danger)">*</span></label>
+          <input type="text" class="form-control" id="resUnit" placeholder="مثال: A-101" required>
+        </div>
+        <div class="form-group">
+          <label>نوع السكن</label>
+          <select class="form-control" id="resType">
+            <option value="owner">مالك</option>
+            <option value="tenant">مستأجر</option>
+            <option value="family">عائلة</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ملاحظات</label>
+        <textarea class="form-control" id="resNotes" rows="2" placeholder="أي ملاحظات إضافية..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeAllModals()">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveResident()">
+        <i class="fas fa-save"></i>
+        <span>حفظ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Add Visitor Modal -->
+  <div class="modal" id="addVisitorModal">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fas fa-user-clock"></i> تسجيل زائر</h3>
+      <button class="modal-close" onclick="closeAllModals()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>الاسم <span style="color:var(--danger)">*</span></label>
+          <input type="text" class="form-control" id="visName" placeholder="اسم الزائر" required>
+        </div>
+        <div class="form-group">
+          <label>رقم الهاتف</label>
+          <input type="tel" class="form-control" id="visPhone" placeholder="05xxxxxxxx">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>رقم الهوية</label>
+          <input type="text" class="form-control" id="visId" placeholder="رقم الهوية">
+        </div>
+        <div class="form-group">
+          <label>الغرض من الزيارة</label>
+          <select class="form-control" id="visPurpose">
+            <option value="personal">شخصي</option>
+            <option value="delivery">توصيل</option>
+            <option value="maintenance">صيانة</option>
+            <option value="business">عمل</option>
+            <option value="other">أخرى</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>الساكن المستضيف</label>
+        <select class="form-control" id="visHost">
+          <option value="">-- اختر الساكن --</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>ملاحظات</label>
+        <textarea class="form-control" id="visNotes" rows="2" placeholder="ملاحظات..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeAllModals()">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveVisitor()">
+        <i class="fas fa-save"></i>
+        <span>تسجيل الدخول</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Add Vehicle Modal -->
+  <div class="modal" id="addVehicleModal">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fas fa-car"></i> إضافة مركبة</h3>
+      <button class="modal-close" onclick="closeAllModals()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>المالك <span style="color:var(--danger)">*</span></label>
+          <select class="form-control" id="vehOwner" required>
+            <option value="">-- اختر المالك --</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>نوع المركبة <span style="color:var(--danger)">*</span></label>
+          <input type="text" class="form-control" id="vehType" placeholder="مثال: تويوتا كامري" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>رقم اللوحة <span style="color:var(--danger)">*</span></label>
+          <input type="text" class="form-control" id="vehPlate" placeholder="مثال: أ ب ت 1234" required>
+        </div>
+        <div class="form-group">
+          <label>اللون</label>
+          <input type="text" class="form-control" id="vehColor" placeholder="لون المركبة">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ملاحظات</label>
+        <textarea class="form-control" id="vehNotes" rows="2" placeholder="ملاحظات..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeAllModals()">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveVehicle()">
+        <i class="fas fa-save"></i>
+        <span>حفظ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Scanner Overlay -->
+  <div class="scanner-overlay" id="scannerOverlay" style="display:none;">
+    <div class="scanner-box">
+      <div class="scanner-corner tl"></div>
+      <div class="scanner-corner tr"></div>
+      <div class="scanner-corner bl"></div>
+      <div class="scanner-corner br"></div>
+      <div class="scanner-line"></div>
+    </div>
+    <p style="color:var(--accent);margin-top:20px;font-size:1.1rem;">وجه الكاميرا نحو رمز QR</p>
+    <button class="btn btn-secondary" style="margin-top:20px;" onclick="closeScanner()">
+      <i class="fas fa-xmark"></i>
+      <span>إلغاء</span>
+    </button>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Spinner Overlay -->
+  <div class="spinner-overlay" id="spinnerOverlay">
+    <div class="spinner"></div>
+    <p style="color:var(--text-muted);margin-top:15px;">جاري المعالجة...</p>
+  </div>
+
+  <!-- Service Worker for PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('data:text/javascript,' + encodeURIComponent(`
+        self.addEventListener('install', e => self.skipWaiting());
+        self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+        self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+      `)).catch(() => {});
+    }
+  </script>
+
+  <script>
+
+    // ===================== DATA STORE =====================
+    const DB = {
+      residents: JSON.parse(localStorage.getItem('gp_residents')) || [
+        { id: 1, name: 'أحمد محمد', idNumber: '1234567890', phone: '0501234567', email: 'ahmed@email.com', unit: 'A-101', type: 'owner', status: 'active', notes: '', createdAt: Date.now() - 86400000 * 30 },
+        { id: 2, name: 'خالد عبدالله', idNumber: '0987654321', phone: '0509876543', email: 'khaled@email.com', unit: 'A-102', type: 'tenant', status: 'active', notes: '', createdAt: Date.now() - 86400000 * 20 },
+        { id: 3, name: 'فاطمة علي', idNumber: '1122334455', phone: '0551122334', email: 'fatima@email.com', unit: 'B-201', type: 'owner', status: 'active', notes: '', createdAt: Date.now() - 86400000 * 15 },
+        { id: 4, name: 'محمد سالم', idNumber: '5566778899', phone: '0505566778', email: 'mohamed@email.com', unit: 'B-202', type: 'family', status: 'active', notes: '', createdAt: Date.now() - 86400000 * 10 },
+        { id: 5, name: 'نورة أحمد', idNumber: '9988776655', phone: '0559988776', email: 'noura@email.com', unit: 'C-301', type: 'tenant', status: 'inactive', notes: '', createdAt: Date.now() - 86400000 * 5 },
+      ],
+      visitors: JSON.parse(localStorage.getItem('gp_visitors')) || [
+        { id: 1, name: 'سعد محمود', phone: '0501112223', idNumber: '2233445566', purpose: 'personal', hostId: 1, hostName: 'أحمد محمد', entryTime: Date.now() - 3600000, exitTime: null, status: 'inside', notes: '' },
+        { id: 2, name: 'عمر خالد', phone: '0504445556', idNumber: '6677889900', purpose: 'delivery', hostId: 2, hostName: 'خالد عبدالله', entryTime: Date.now() - 7200000, exitTime: Date.now() - 1800000, status: 'exited', notes: '' },
+        { id: 3, name: 'ليلى حسن', phone: '0507778889', idNumber: '3344556677', purpose: 'business', hostId: 3, hostName: 'فاطمة علي', entryTime: Date.now() - 10800000, exitTime: null, status: 'inside', notes: '' },
+      ],
+      vehicles: JSON.parse(localStorage.getItem('gp_vehicles')) || [
+        { id: 1, ownerId: 1, ownerName: 'أحمد محمد', type: 'تويوتا كامري', plate: 'أ ب ت 1234', color: 'أبيض', status: 'inside', notes: '' },
+        { id: 2, ownerId: 2, ownerName: 'خالد عبدالله', type: 'هيونداي سوناتا', plate: 'د هـ و 5678', color: 'أسود', status: 'outside', notes: '' },
+        { id: 3, ownerId: 3, ownerName: 'فاطمة علي', type: 'نيسان التيما', plate: 'ص ق ن 9012', color: 'فضي', status: 'inside', notes: '' },
+      ],
+      logs: JSON.parse(localStorage.getItem('gp_logs')) || [],
+      settings: JSON.parse(localStorage.getItem('gp_settings')) || { complexName: 'مجمع النخيل السكني', address: 'شارع الملك فهد، الرياض', phone: '0500000000' },
+      currentUser: JSON.parse(localStorage.getItem('gp_user')) || null,
+    };
+
+    function saveDB() {
+      localStorage.setItem('gp_residents', JSON.stringify(DB.residents));
+      localStorage.setItem('gp_visitors', JSON.stringify(DB.visitors));
+      localStorage.setItem('gp_vehicles', JSON.stringify(DB.vehicles));
+      localStorage.setItem('gp_logs', JSON.stringify(DB.logs));
+      localStorage.setItem('gp_settings', JSON.stringify(DB.settings));
+      if (DB.currentUser) localStorage.setItem('gp_user', JSON.stringify(DB.currentUser));
+    }
+
+    function addLog(type, name, description) {
+      DB.logs.unshift({
+        id: Date.now(),
+        type,
+        name,
+        description,
+        timestamp: Date.now(),
+        user: DB.currentUser ? DB.currentUser.name : 'نظام'
+      });
+      if (DB.logs.length > 500) DB.logs = DB.logs.slice(0, 500);
+      saveDB();
+    }
+
+    // ===================== AUTH =====================
+    const loginScreen = document.getElementById('loginScreen');
+    const appContainer = document.getElementById('appContainer');
+
+    if (DB.currentUser) {
+      loginScreen.style.display = 'none';
+      appContainer.style.display = 'flex';
+      document.getElementById('userName').textContent = DB.currentUser.name;
+      document.getElementById('userAvatar').textContent = DB.currentUser.name.charAt(0);
+      initApp();
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px;display:inline-block;vertical-align:middle;margin-left:8px;"></span> جاري الدخول...';
+
+      setTimeout(() => {
+        if (username && password.length >= 4) {
+          DB.currentUser = { name: username, role: 'admin' };
+          saveDB();
+          loginScreen.style.opacity = '0';
+          setTimeout(() => {
+            loginScreen.style.display = 'none';
+            appContainer.style.display = 'flex';
+            document.getElementById('userName').textContent = username;
+            document.getElementById('userAvatar').textContent = username.charAt(0);
+            initApp();
+            showToast('success', 'مرحباً ' + username + '! تم تسجيل الدخول بنجاح');
+            addLog('entry', username, 'تسجيل دخول للنظام');
+          }, 400);
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = '<span>تسجيل الدخول</span><i class="fas fa-arrow-left"></i>';
+          showToast('error', 'اسم المستخدم أو كلمة المرور غير صحيحة');
+        }
+      }, 800);
+    });
+
+    function logout() {
+      if (!confirm('هل أنت متأكد من تسجيل الخروج؟')) return;
+      addLog('exit', DB.currentUser.name, 'تسجيل خروج من النظام');
+      DB.currentUser = null;
+      localStorage.removeItem('gp_user');
+      location.reload();
+    }
+
+    // ===================== NAVIGATION =====================
+    let currentPage = 'dashboard';
+    const pageTitles = {
+      dashboard: 'لوحة التحكم',
+      residents: 'إدارة السكان',
+      visitors: 'إدارة الزوار',
+      vehicles: 'إدارة المركبات',
+      logs: 'سجل الحركة',
+      reports: 'التقارير',
+      settings: 'الإعدادات'
+    };
+
+    function navigateTo(page) {
+      currentPage = page;
+      document.getElementById('pageTitle').textContent = pageTitles[page];
+
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      document.getElementById(page + 'Page')?.classList.add('active');
+
+      if (window.innerWidth <= 1024) toggleSidebar();
+
+      // Refresh data for the page
+      if (page === 'dashboard') updateDashboard();
+      if (page === 'residents') renderResidents();
+      if (page === 'visitors') renderVisitors();
+      if (page === 'vehicles') renderVehicles();
+      if (page === 'logs') renderLogs();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('mobileOverlay').classList.toggle('active');
+    }
+
+    // ===================== DASHBOARD =====================
+    function updateDashboard() {
+      animateNumber('statResidents', DB.residents.length);
+      animateNumber('statVisitors', DB.visitors.filter(v => v.status === 'inside').length);
+      animateNumber('statVehicles', DB.vehicles.length);
+      animateNumber('statEntries', DB.logs.filter(l => l.type === 'entry' && Date.now() - l.timestamp < 86400000).length);
+
+      renderRecentActivity();
+      renderCharts();
+    }
+
+    function animateNumber(id, target) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      let current = parseInt(el.textContent) || 0;
+      const diff = target - current;
+      if (diff === 0) return;
+      const step = diff > 0 ? 1 : -1;
+      const interval = setInterval(() => {
+        current += step;
+        el.textContent = current;
+        if (current === target) clearInterval(interval);
+      }, 20);
+    }
+
+    function renderRecentActivity() {
+      const container = document.getElementById('recentActivity');
+      const recent = DB.logs.slice(0, 8);
+      if (recent.length === 0) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><h3>لا توجد نشاطات</h3></div>';
+        return;
+      }
+      container.innerHTML = recent.map(log => {
+        const icons = { entry: 'fa-arrow-right-to-bracket', exit: 'fa-arrow-right-from-bracket', add: 'fa-plus', edit: 'fa-pen', delete: 'fa-trash' };
+        const colors = { entry: 'var(--success)', exit: 'var(--danger)', add: 'var(--accent)', edit: 'var(--warning)', delete: 'var(--danger)' };
+        return `
+          <div class="activity-item">
+            <div class="activity-icon" style="background:${colors[log.type] || 'var(--accent)'}20;color:${colors[log.type] || 'var(--accent)'};">
+              <i class="fas ${icons[log.type] || 'fa-circle'}"></i>
+            </div>
+            <div class="activity-details">
+              <div class="activity-title">${log.name}</div>
+              <div class="activity-time">${log.description} · ${timeAgo(log.timestamp)}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function timeAgo(timestamp) {
+      const diff = Date.now() - timestamp;
+      const mins = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      if (mins < 1) return 'الآن';
+      if (mins < 60) return `منذ ${mins} دقيقة`;
+      if (hours < 24) return `منذ ${hours} ساعة`;
+      return `منذ ${days} يوم`;
+    }
+
+    // ===================== CHARTS =====================
+    function renderCharts() {
+      renderActivityChart();
+      renderVisitorChart();
+      renderVehicleChart();
+    }
+
+    function renderActivityChart() {
+      const canvas = document.getElementById('activityChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width, h = rect.height;
+      const hours = ['6ص', '8ص', '10ص', '12ظ', '2م', '4م', '6م', '8م', '10م'];
+      const entries = [12, 25, 45, 38, 52, 35, 28, 18, 8];
+      const exits = [5, 10, 18, 22, 30, 25, 20, 15, 6];
+
+      ctx.clearRect(0, 0, w, h);
+      const padding = 40;
+      const chartW = w - padding * 2;
+      const chartH = h - padding * 2;
+      const maxVal = Math.max(...entries, ...exits) * 1.2;
+
+      // Grid
+      ctx.strokeStyle = 'rgba(148,163,184,0.1)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 5; i++) {
+        const y = padding + (chartH / 5) * i;
+        ctx.beginPath(); ctx.moveTo(padding, y); ctx.lineTo(w - padding, y); ctx.stroke();
+      }
+
+      // Labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px "Tajawal", sans-serif';
+      ctx.textAlign = 'center';
+      hours.forEach((hLabel, i) => {
+        const x = padding + (chartW / (hours.length - 1)) * i;
+        ctx.fillText(hLabel, x, h - 10);
+      });
+
+      // Draw line
+      function drawLine(data, color) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        data.forEach((val, i) => {
+          const x = padding + (chartW / (hours.length - 1)) * i;
+          const y = padding + chartH - (val / maxVal) * chartH;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Gradient fill
+        ctx.lineTo(padding + chartW, padding + chartH);
+        ctx.lineTo(padding, padding + chartH);
+        ctx.closePath();
+        const grad = ctx.createLinearGradient(0, padding, 0, padding + chartH);
+        grad.addColorStop(0, color.replace(')', ', 0.2)').replace('rgb', 'rgba'));
+        grad.addColorStop(1, color.replace(')', ', 0)').replace('rgb', 'rgba'));
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Points
+        data.forEach((val, i) => {
+          const x = padding + (chartW / (hours.length - 1)) * i;
+          const y = padding + chartH - (val / maxVal) * chartH;
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, Math.PI * 2);
+          ctx.fillStyle = '#0f172a';
+          ctx.fill();
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        });
+      }
+
+      drawLine(entries, 'rgb(0, 212, 255)');
+      drawLine(exits, 'rgb(255, 51, 102)');
+
+      // Legend
+      ctx.font = '12px "Tajawal", sans-serif';
+      ctx.fillStyle = 'rgb(0, 212, 255)';
+      ctx.fillRect(w - 140, 10, 12, 12);
+      ctx.fillStyle = '#e2e8f0';
+      ctx.textAlign = 'left';
+      ctx.fillText('الدخول', w - 120, 20);
+      ctx.fillStyle = 'rgb(255, 51, 102)';
+      ctx.fillRect(w - 70, 10, 12, 12);
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText('الخروج', w - 50, 20);
+    }
+
+    function renderVisitorChart() {
+      const canvas = document.getElementById('visitorChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width, h = rect.height;
+      const cx = w / 2, cy = h / 2;
+      const radius = Math.min(cx, cy) - 30;
+
+      const data = [
+        { label: 'شخصي', value: DB.visitors.filter(v => v.purpose === 'personal').length, color: '#00d4ff' },
+        { label: 'توصيل', value: DB.visitors.filter(v => v.purpose === 'delivery').length, color: '#00ff88' },
+        { label: 'صيانة', value: DB.visitors.filter(v => v.purpose === 'maintenance').length, color: '#ffaa00' },
+        { label: 'عمل', value: DB.visitors.filter(v => v.purpose === 'business').length, color: '#ff3366' },
+        { label: 'أخرى', value: DB.visitors.filter(v => v.purpose === 'other').length, color: '#a855f7' },
+      ];
+      const total = data.reduce((s, d) => s + d.value, 0) || 1;
+
+      let startAngle = -Math.PI / 2;
+      data.forEach(d => {
+        const angle = (d.value / total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, startAngle, startAngle + angle);
+        ctx.closePath();
+        ctx.fillStyle = d.color;
+        ctx.fill();
+        startAngle += angle;
+      });
+
+      // Donut hole
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+      ctx.fillStyle = '#1e293b';
+      ctx.fill();
+
+      // Center text
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = 'bold 18px "Tajawal", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(total.toString(), cx, cy - 5);
+      ctx.font = '12px "Tajawal", sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('زائر', cx, cy + 15);
+
+      // Legend
+      let ly = 10;
+      data.forEach(d => {
+        ctx.fillStyle = d.color;
+        ctx.fillRect(10, ly, 12, 12);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px "Tajawal", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`${d.label} (${d.value})`, 28, ly + 10);
+        ly += 20;
+      });
+    }
+
+    function renderVehicleChart() {
+      const canvas = document.getElementById('vehicleChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width, h = rect.height;
+      const inside = DB.vehicles.filter(v => v.status === 'inside').length;
+      const outside = DB.vehicles.filter(v => v.status === 'outside').length;
+      const total = inside + outside || 1;
+
+      const cx = w / 2, cy = h / 2;
+      const radius = Math.min(cx, cy) - 30;
+
+      let startAngle = -Math.PI / 2;
+      [{ value: inside, color: '#00ff88' }, { value: outside, color: '#ff3366' }].forEach(d => {
+        const angle = (d.value / total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, startAngle, startAngle + angle);
+        ctx.closePath();
+        ctx.fillStyle = d.color;
+        ctx.fill();
+        startAngle += angle;
+      });
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+      ctx.fillStyle = '#1e293b';
+      ctx.fill();
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = 'bold 18px "Tajawal", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(DB.vehicles.length.toString(), cx, cy - 5);
+      ctx.font = '12px "Tajawal", sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('مركبة', cx, cy + 15);
+
+      const legend = [
+        { label: 'داخل المجمع', color: '#00ff88', val: inside },
+        { label: 'خارج المجمع', color: '#ff3366', val: outside }
+      ];
+      let ly = 10;
+      legend.forEach(d => {
+        ctx.fillStyle = d.color;
+        ctx.fillRect(10, ly, 12, 12);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px "Tajawal", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`${d.label} (${d.val})`, 28, ly + 10);
+        ly += 20;
+      });
+    }
+
+    function refreshChart() {
+      renderCharts();
+      showToast('success', 'تم تحديث الرسوم البيانية');
+    }
+
+    // ===================== RESIDENTS =====================
+    let residentPage = 1;
+    const residentPerPage = 10;
+
+    function renderResidents() {
+      const search = document.getElementById('residentSearch')?.value.toLowerCase() || '';
+      let filtered = DB.residents.filter(r =>
+        r.name.toLowerCase().includes(search) ||
+        r.unit.toLowerCase().includes(search) ||
+        r.phone.includes(search)
+      );
+
+      const totalPages = Math.ceil(filtered.length / residentPerPage) || 1;
+      const start = (residentPage - 1) * residentPerPage;
+      const pageData = filtered.slice(start, start + residentPerPage);
+
+      const tbody = document.getElementById('residentsTable');
+      if (pageData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state" style="padding:40px;"><i class="fas fa-users" style="font-size:3rem;"></i><h3>لا يوجد سكان</h3></td></tr>';
+      } else {
+        tbody.innerHTML = pageData.map((r, i) => `
+          <tr style="animation:fadeIn 0.3s ${i * 0.05}s both;">
+            <td>${start + i + 1}</td>
+            <td><strong>${r.name}</strong></td>
+            <td><span class="badge badge-info"><i class="fas fa-building"></i> ${r.unit}</span></td>
+            <td>${r.phone || '-'}</td>
+            <td>${typeLabel(r.type)}</td>
+            <td><span class="badge ${r.status === 'active' ? 'badge-success' : 'badge-danger'}">${r.status === 'active' ? 'نشط' : 'غير نشط'}</span></td>
+            <td>
+              <button class="btn-icon" onclick="editResident(${r.id})" data-tooltip="تعديل"><i class="fas fa-pen"></i></button>
+              <button class="btn-icon" onclick="deleteResident(${r.id})" data-tooltip="حذف"><i class="fas fa-trash" style="color:var(--danger)"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      renderPagination('residentsPagination', residentPage, totalPages, (p) => { residentPage = p; renderResidents(); });
+    }
+
+    function typeLabel(type) {
+      const labels = { owner: 'مالك', tenant: 'مستأجر', family: 'عائلة' };
+      return labels[type] || type;
+    }
+
+    function filterResidents() { residentPage = 1; renderResidents(); }
+
+    function saveResident() {
+      const name = document.getElementById('resName').value.trim();
+      const unit = document.getElementById('resUnit').value.trim();
+      if (!name || !unit) { showToast('error', 'الاسم ورقم الوحدة مطلوبان'); return; }
+
+      const resident = {
+        id: Date.now(),
+        name,
+        idNumber: document.getElementById('resId').value.trim(),
+        phone: document.getElementById('resPhone').value.trim(),
+        email: document.getElementById('resEmail').value.trim(),
+        unit,
+        type: document.getElementById('resType').value,
+        status: 'active',
+        notes: document.getElementById('resNotes').value.trim(),
+        createdAt: Date.now()
+      };
+
+      DB.residents.push(resident);
+      saveDB();
+      addLog('add', name, 'إضافة ساكن جديد - وحدة ' + unit);
+      closeAllModals();
+      renderResidents();
+      showToast('success', 'تم إضافة الساكن بنجاح');
+
+      // Clear form
+      document.getElementById('resName').value = '';
+      document.getElementById('resId').value = '';
+      document.getElementById('resPhone').value = '';
+      document.getElementById('resEmail').value = '';
+      document.getElementById('resUnit').value = '';
+      document.getElementById('resNotes').value = '';
+    }
+
+    function editResident(id) {
+      const r = DB.residents.find(x => x.id === id);
+      if (!r) return;
+      document.getElementById('resName').value = r.name;
+      document.getElementById('resId').value = r.idNumber;
+      document.getElementById('resPhone').value = r.phone;
+      document.getElementById('resEmail').value = r.email;
+      document.getElementById('resUnit').value = r.unit;
+      document.getElementById('resType').value = r.type;
+      document.getElementById('resNotes').value = r.notes;
+      openModal('addResident');
+      // Override save to update instead
+      const orig = window.saveResident;
+      window.saveResident = function() {
+        r.name = document.getElementById('resName').value.trim();
+        r.idNumber = document.getElementById('resId').value.trim();
+        r.phone = document.getElementById('resPhone').value.trim();
+        r.email = document.getElementById('resEmail').value.trim();
+        r.unit = document.getElementById('resUnit').value.trim();
+        r.type = document.getElementById('resType').value;
+        r.notes = document.getElementById('resNotes').value.trim();
+        saveDB();
+        addLog('edit', r.name, 'تعديل بيانات ساكن');
+        closeAllModals();
+        renderResidents();
+        showToast('success', 'تم تحديث البيانات بنجاح');
+        window.saveResident = orig;
+      };
+    }
+
+    function deleteResident(id) {
+      const r = DB.residents.find(x => x.id === id);
+      if (!r || !confirm('هل أنت متأكد من حذف ' + r.name + '؟')) return;
+      DB.residents = DB.residents.filter(x => x.id !== id);
+      saveDB();
+      addLog('delete', r.name, 'حذف ساكن من النظام');
+      renderResidents();
+      showToast('success', 'تم الحذف بنجاح');
+    }
+
+    // ===================== VISITORS =====================
+    let visitorPage = 1;
+    const visitorPerPage = 10;
+
+    function renderVisitors() {
+      const search = document.getElementById('visitorSearch')?.value.toLowerCase() || '';
+      let filtered = DB.visitors.filter(v =>
+        v.name.toLowerCase().includes(search) ||
+        v.phone.includes(search) ||
+        v.hostName?.toLowerCase().includes(search)
+      );
+
+      const totalPages = Math.ceil(filtered.length / visitorPerPage) || 1;
+      const start = (visitorPage - 1) * visitorPerPage;
+      const pageData = filtered.slice(start, start + visitorPerPage);
+
+      const tbody = document.getElementById('visitorsTable');
+      if (pageData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state" style="padding:40px;"><i class="fas fa-user-clock" style="font-size:3rem;"></i><h3>لا يوجد زوار</h3></td></tr>';
+      } else {
+        tbody.innerHTML = pageData.map((v, i) => `
+          <tr style="animation:fadeIn 0.3s ${i * 0.05}s both;">
+            <td>${start + i + 1}</td>
+            <td><strong>${v.name}</strong></td>
+            <td>${v.phone || '-'}</td>
+            <td>${purposeLabel(v.purpose)}</td>
+            <td>${v.hostName || '-'}</td>
+            <td>${formatTime(v.entryTime)}</td>
+            <td><span class="badge ${v.status === 'inside' ? 'badge-success' : 'badge-warning'}">${v.status === 'inside' ? 'داخل' : 'خرج'}</span></td>
+            <td>
+              ${v.status === 'inside' ? `<button class="btn-icon" onclick="checkoutVisitor(${v.id})" data-tooltip="تسجيل خروج"><i class="fas fa-arrow-right-from-bracket" style="color:var(--warning)"></i></button>` : ''}
+              <button class="btn-icon" onclick="deleteVisitor(${v.id})" data-tooltip="حذف"><i class="fas fa-trash" style="color:var(--danger)"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      renderPagination('visitorsPagination', visitorPage, totalPages, (p) => { visitorPage = p; renderVisitors(); });
+
+      // Update host dropdown
+      const hostSelect = document.getElementById('visHost');
+      if (hostSelect) {
+        hostSelect.innerHTML = '<option value="">-- اختر الساكن --</option>' +
+          DB.residents.filter(r => r.status === 'active').map(r => `<option value="${r.id}">${r.name} - ${r.unit}</option>`).join('');
+      }
+    }
+
+    function purposeLabel(p) {
+      const labels = { personal: 'شخصي', delivery: 'توصيل', maintenance: 'صيانة', business: 'عمل', other: 'أخرى' };
+      return labels[p] || p;
+    }
+
+    function formatTime(ts) {
+      if (!ts) return '-';
+      const d = new Date(ts);
+      return d.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) + ' ' + d.toLocaleDateString('ar-SA');
+    }
+
+    function filterVisitors() { visitorPage = 1; renderVisitors(); }
+
+    function saveVisitor() {
+      const name = document.getElementById('visName').value.trim();
+      if (!name) { showToast('error', 'اسم الزائر مطلوب'); return; }
+
+      const hostId = document.getElementById('visHost').value;
+      const host = DB.residents.find(r => r.id == hostId);
+
+      const visitor = {
+        id: Date.now(),
+        name,
+        phone: document.getElementById('visPhone').value.trim(),
+        idNumber: document.getElementById('visId').value.trim(),
+        purpose: document.getElementById('visPurpose').value,
+        hostId: hostId ? parseInt(hostId) : null,
+        hostName: host ? host.name : null,
+        entryTime: Date.now(),
+        exitTime: null,
+        status: 'inside',
+        notes: document.getElementById('visNotes').value.trim()
+      };
+
+      DB.visitors.push(visitor);
+      saveDB();
+      addLog('entry', name, 'تسجيل دخول زائر - ' + purposeLabel(visitor.purpose));
+      closeAllModals();
+      renderVisitors();
+      showToast('success', 'تم تسجيل الزائر بنجاح');
+
+      document.getElementById('visName').value = '';
+      document.getElementById('visPhone').value = '';
+      document.getElementById('visId').value = '';
+      document.getElementById('visNotes').value = '';
+    }
+
+    function checkoutVisitor(id) {
+      const v = DB.visitors.find(x => x.id === id);
+      if (!v || v.status !== 'inside') return;
+      v.status = 'exited';
+      v.exitTime = Date.now();
+      saveDB();
+      addLog('exit', v.name, 'تسجيل خروج زائر');
+      renderVisitors();
+      showToast('success', 'تم تسجيل الخروج بنجاح');
+    }
+
+    function deleteVisitor(id) {
+      const v = DB.visitors.find(x => x.id === id);
+      if (!v || !confirm('هل أنت متأكد من حذف ' + v.name + '؟')) return;
+      DB.visitors = DB.visitors.filter(x => x.id !== id);
+      saveDB();
+      addLog('delete', v.name, 'حذف زائر من النظام');
+      renderVisitors();
+      showToast('success', 'تم الحذف بنجاح');
+    }
+
+    // ===================== VEHICLES =====================
+    let vehiclePage = 1;
+    const vehiclePerPage = 10;
+
+    function renderVehicles() {
+      const search = document.getElementById('vehicleSearch')?.value.toLowerCase() || '';
+      let filtered = DB.vehicles.filter(v =>
+        v.ownerName?.toLowerCase().includes(search) ||
+        v.plate.toLowerCase().includes(search) ||
+        v.type.toLowerCase().includes(search)
+      );
+
+      const totalPages = Math.ceil(filtered.length / vehiclePerPage) || 1;
+      const start = (vehiclePage - 1) * vehiclePerPage;
+      const pageData = filtered.slice(start, start + vehiclePerPage);
+
+      const tbody = document.getElementById('vehiclesTable');
+      if (pageData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state" style="padding:40px;"><i class="fas fa-car" style="font-size:3rem;"></i><h3>لا توجد مركبات</h3></td></tr>';
+      } else {
+        tbody.innerHTML = pageData.map((v, i) => `
+          <tr style="animation:fadeIn 0.3s ${i * 0.05}s both;">
+            <td>${start + i + 1}</td>
+            <td><strong>${v.ownerName || '-'}</strong></td>
+            <td>${v.type}</td>
+            <td><span class="badge badge-info"><i class="fas fa-hashtag"></i> ${v.plate}</span></td>
+            <td>${v.color || '-'}</td>
+            <td><span class="badge ${v.status === 'inside' ? 'badge-success' : 'badge-warning'}">${v.status === 'inside' ? 'داخل' : 'خارج'}</span></td>
+            <td>
+              <button class="btn-icon" onclick="toggleVehicleStatus(${v.id})" data-tooltip="${v.status === 'inside' ? 'تسجيل خروج' : 'تسجيل دخول'}"><i class="fas ${v.status === 'inside' ? 'fa-arrow-right-from-bracket' : 'fa-arrow-right-to-bracket'}"></i></button>
+              <button class="btn-icon" onclick="deleteVehicle(${v.id})" data-tooltip="حذف"><i class="fas fa-trash" style="color:var(--danger)"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      renderPagination('vehiclesPagination', vehiclePage, totalPages, (p) => { vehiclePage = p; renderVehicles(); });
+
+      const ownerSelect = document.getElementById('vehOwner');
+      if (ownerSelect) {
+        ownerSelect.innerHTML = '<option value="">-- اختر المالك --</option>' +
+          DB.residents.filter(r => r.status === 'active').map(r => `<option value="${r.id}">${r.name} - ${r.unit}</option>`).join('');
+      }
+    }
+
+    function filterVehicles() { vehiclePage = 1; renderVehicles(); }
+
+    function saveVehicle() {
+      const type = document.getElementById('vehType').value.trim();
+      const plate = document.getElementById('vehPlate').value.trim();
+      const ownerId = document.getElementById('vehOwner').value;
+      if (!type || !plate || !ownerId) { showToast('error', 'جميع الحقول المطلوبة يجب ملؤها'); return; }
+
+      const owner = DB.residents.find(r => r.id == ownerId);
+      const vehicle = {
+        id: Date.now(),
+        ownerId: parseInt(ownerId),
+        ownerName: owner ? owner.name : '',
+        type,
+        plate,
+        color: document.getElementById('vehColor').value.trim(),
+        status: 'inside',
+        notes: document.getElementById('vehNotes').value.trim()
+      };
+
+      DB.vehicles.push(vehicle);
+      saveDB();
+      addLog('add', type + ' - ' + plate, 'إضافة مركبة جديدة');
+      closeAllModals();
+      renderVehicles();
+      showToast('success', 'تم إضافة المركبة بنجاح');
+
+      document.getElementById('vehType').value = '';
+      document.getElementById('vehPlate').value = '';
+      document.getElementById('vehColor').value = '';
+      document.getElementById('vehNotes').value = '';
+    }
+
+    function toggleVehicleStatus(id) {
+      const v = DB.vehicles.find(x => x.id === id);
+      if (!v) return;
+      v.status = v.status === 'inside' ? 'outside' : 'inside';
+      saveDB();
+      addLog(v.status === 'inside' ? 'entry' : 'exit', v.plate, v.status === 'inside' ? 'دخول مركبة' : 'خروج مركبة');
+      renderVehicles();
+      showToast('success', v.status === 'inside' ? 'تم تسجيل الدخول' : 'تم تسجيل الخروج');
+    }
+
+    function deleteVehicle(id) {
+      const v = DB.vehicles.find(x => x.id === id);
+      if (!v || !confirm('هل أنت متأكد من حذف المركبة ' + v.plate + '؟')) return;
+      DB.vehicles = DB.vehicles.filter(x => x.id !== id);
+      saveDB();
+      addLog('delete', v.plate, 'حذف مركبة من النظام');
+      renderVehicles();
+      showToast('success', 'تم الحذف بنجاح');
+    }
+
+    // ===================== LOGS =====================
+    let logPage = 1;
+    const logPerPage = 15;
+
+    function renderLogs() {
+      const search = document.getElementById('logSearch')?.value.toLowerCase() || '';
+      const typeFilter = document.getElementById('logTypeFilter')?.value || '';
+
+      let filtered = DB.logs.filter(l => {
+        const matchSearch = !search || l.name.toLowerCase().includes(search) || l.description.toLowerCase().includes(search);
+        const matchType = !typeFilter || l.type === typeFilter;
+        return matchSearch && matchType;
+      });
+
+      const totalPages = Math.ceil(filtered.length / logPerPage) || 1;
+      const start = (logPage - 1) * logPerPage;
+      const pageData = filtered.slice(start, start + logPerPage);
+
+      const tbody = document.getElementById('logsTable');
+      if (pageData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state" style="padding:40px;"><i class="fas fa-clipboard-list" style="font-size:3rem;"></i><h3>لا توجد سجلات</h3></td></tr>';
+      } else {
+        tbody.innerHTML = pageData.map((l, i) => {
+          const icons = { entry: 'fa-arrow-right-to-bracket text-success', exit: 'fa-arrow-right-from-bracket text-danger', add: 'fa-plus text-accent', edit: 'fa-pen text-warning', delete: 'fa-trash text-danger' };
+          return `
+            <tr style="animation:fadeIn 0.3s ${i * 0.03}s both;">
+              <td>${start + i + 1}</td>
+              <td><i class="fas ${icons[l.type] || 'fa-circle'}"></i> ${logTypeLabel(l.type)}</td>
+              <td><strong>${l.name}</strong></td>
+              <td>${l.description}</td>
+              <td>${formatTime(l.timestamp)}</td>
+              <td>${l.user}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      renderPagination('logsPagination', logPage, totalPages, (p) => { logPage = p; renderLogs(); });
+    }
+
+    function logTypeLabel(type) {
+      const labels = { entry: 'دخول', exit: 'خروج', add: 'إضافة', edit: 'تعديل', delete: 'حذف' };
+      return labels[type] || type;
+    }
+
+    function filterLogs() { logPage = 1; renderLogs(); }
+
+    // ===================== PAGINATION =====================
+    function renderPagination(containerId, current, total, callback) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      if (total <= 1) { container.innerHTML = ''; return; }
+
+      let html = `
+        <button class="page-btn" onclick="${callback.name}(${current - 1})" ${current === 1 ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>
+      `;
+      for (let i = 1; i <= total; i++) {
+        if (i === 1 || i === total || (i >= current - 1 && i <= current + 1)) {
+          html += `<button class="page-btn ${i === current ? 'active' : ''}" onclick="${callback.toString().match(/\(p\)/) ? 'arguments[0](' + i + ')' : ''}">${i}</button>`;
+        } else if (i === current - 2 || i === current + 2) {
+          html += `<span style="color:var(--text-muted);padding:0 5px;">...</span>`;
+        }
+      }
+      html += `<button class="page-btn" onclick="${callback.name}(${current + 1})" ${current === total ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+
+      // Fix: use proper onclick
+      container.innerHTML = '';
+      const prev = document.createElement('button');
+      prev.className = 'page-btn';
+      prev.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      prev.disabled = current === 1;
+      prev.onclick = () => callback(current - 1);
+      container.appendChild(prev);
+
+      for (let i = 1; i <= total; i++) {
+        if (i === 1 || i === total || (i >= current - 1 && i <= current + 1)) {
+          const btn = document.createElement('button');
+          btn.className = 'page-btn' + (i === current ? ' active' : '');
+          btn.textContent = i;
+          btn.onclick = () => callback(i);
+          container.appendChild(btn);
+        } else if (i === current - 2 || i === current + 2) {
+          const span = document.createElement('span');
+          span.style.cssText = 'color:var(--text-muted);padding:0 5px;';
+          span.textContent = '...';
+          container.appendChild(span);
+        }
+      }
+
+      const next = document.createElement('button');
+      next.className = 'page-btn';
+      next.innerHTML = '<i class="fas fa-chevron-left"></i>';
+      next.disabled = current === total;
+      next.onclick = () => callback(current + 1);
+      container.appendChild(next);
+    }
+
+    // ===================== MODALS =====================
+    function openModal(type) {
+      const modalMap = {
+        addResident: 'addResidentModal',
+        addVisitor: 'addVisitorModal',
+        addVehicle: 'addVehicleModal'
+      };
+      const modalId = modalMap[type];
+      if (!modalId) return;
+      document.getElementById('modalOverlay').classList.add('active');
+      document.getElementById(modalId).classList.add('active');
+    }
+
+    function closeAllModals() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    }
+
+    // ===================== SCANNER =====================
+    function openScanner() {
+      document.getElementById('scannerOverlay').style.display = 'flex';
+      setTimeout(() => {
+        closeScanner();
+        showToast('success', 'تم مسح الرمز بنجاح - زائر: عمر خالد');
+      }, 3000);
+    }
+
+    function closeScanner() {
+      document.getElementById('scannerOverlay').style.display = 'none';
+    }
+
+    // ===================== REPORTS =====================
+    function generateReport() {
+      const type = document.getElementById('reportType').value;
+      const from = document.getElementById('reportFrom').value;
+      const to = document.getElementById('reportTo').value;
+
+      const result = document.getElementById('reportResult');
+      result.innerHTML = `
+        <div class="card" style="margin-top:20px;">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-file-lines"></i> التقرير ${type === 'daily' ? 'اليومي' : type === 'weekly' ? 'الأسبوعي' : 'الشهري'}</h3>
+          </div>
+          <div style="padding:20px;">
+            <div class="stats-grid" style="margin-bottom:20px;">
+              <div class="stat-card" style="padding:15px;">
+                <div class="stat-info">
+                  <div class="stat-value">${DB.visitors.length}</div>
+                  <div class="stat-label">إجمالي الزوار</div>
+                </div>
+              </div>
+              <div class="stat-card" style="padding:15px;">
+                <div class="stat-info">
+                  <div class="stat-value">${DB.visitors.filter(v => v.status === 'inside').length}</div>
+                  <div class="stat-label">الزوار الحاليين</div>
+                </div>
+              </div>
+              <div class="stat-card" style="padding:15px;">
+                <div class="stat-info">
+                  <div class="stat-value">${DB.vehicles.filter(v => v.status === 'inside').length}</div>
+                  <div class="stat-label">المركبات الداخلية</div>
+                </div>
+              </div>
+            </div>
+            <div class="chart-container" style="height:200px;">
+              <canvas id="reportChart"></canvas>
+            </div>
+          </div>
+        </div>
+      `;
+      setTimeout(() => {
+        const canvas = document.getElementById('reportChart');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          const dpr = window.devicePixelRatio || 1;
+          const rect = canvas.parentElement.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          ctx.scale(dpr, dpr);
+          const w = rect.width, h = rect.height;
+          const days = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+          const data = [15, 22, 18, 30, 25, 35, 20];
+          const max = Math.max(...data) * 1.2;
+          const barW = (w - 80) / days.length;
+          days.forEach((d, i) => {
+            const bh = (data[i] / max) * (h - 60);
+            const x = 40 + i * barW + barW * 0.2;
+            const y = h - 40 - bh;
+            const grad = ctx.createLinearGradient(0, y, 0, h - 40);
+            grad.addColorStop(0, '#00d4ff');
+            grad.addColorStop(1, '#0099cc');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.roundRect(x, y, barW * 0.6, bh, 4);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px "Tajawal"';
+            ctx.textAlign = 'center';
+            ctx.fillText(d, x + barW * 0.3, h - 20);
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillText(data[i], x + barW * 0.3, y - 8);
+          });
+        }
+      }, 100);
+      showToast('success', 'تم إنشاء التقرير بنجاح');
+    }
+
+    function printReport() { window.print(); }
+
+    // ===================== SETTINGS =====================
+    function saveSettings() {
+      DB.settings.complexName = document.getElementById('settingComplexName').value;
+      DB.settings.address = document.getElementById('settingAddress').value;
+      DB.settings.phone = document.getElementById('settingPhone').value;
+      saveDB();
+      showToast('success', 'تم حفظ الإعدادات بنجاح');
+    }
+
+    function saveSecuritySettings() {
+      const pass = document.getElementById('settingNewPassword').value;
+      const confirm = document.getElementById('settingConfirmPassword').value;
+      if (pass && pass !== confirm) { showToast('error', 'كلمتا المرور غير متطابقتين'); return; }
+      if (pass && pass.length < 4) { showToast('error', 'كلمة المرور قصيرة جداً'); return; }
+      document.getElementById('settingNewPassword').value = '';
+      document.getElementById('settingConfirmPassword').value = '';
+      showToast('success', 'تم حفظ إعدادات الأمان');
+    }
+
+    function backupData() {
+      const data = JSON.stringify({ residents: DB.residents, visitors: DB.visitors, vehicles: DB.vehicles, logs: DB.logs, settings: DB.settings });
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'gatepass_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('success', 'تم تصدير النسخة الاحتياطية');
+    }
+
+    function restoreData(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.residents) DB.residents = data.residents;
+          if (data.visitors) DB.visitors = data.visitors;
+          if (data.vehicles) DB.vehicles = data.vehicles;
+          if (data.logs) DB.logs = data.logs;
+          if (data.settings) DB.settings = data.settings;
+          saveDB();
+          showToast('success', 'تم استعادة البيانات بنجاح');
+          location.reload();
+        } catch {
+          showToast('error', 'ملف غير صالح');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function confirmClearData() {
+      if (!confirm('تحذير: سيتم حذف جميع البيانات بشكل نهائي! هل أنت متأكد؟')) return;
+      if (!confirm('تأكيد نهائي: لا يمكن التراجع عن هذا الإجراء.')) return;
+      DB.residents = []; DB.visitors = []; DB.vehicles = []; DB.logs = [];
+      saveDB();
+      showToast('success', 'تم مسح جميع البيانات');
+      location.reload();
+    }
+
+    // ===================== EXPORT =====================
+    function exportData(type) {
+      let data, filename, headers;
+      if (type === 'residents') {
+        data = DB.residents;
+        filename = 'residents.csv';
+        headers = ['الاسم', 'رقم الهوية', 'الهاتف', 'البريد', 'الوحدة', 'النوع', 'الحالة'];
+      } else if (type === 'logs') {
+        data = DB.logs;
+        filename = 'logs.csv';
+        headers = ['النوع', 'الاسم', 'الوصف', 'الوقت', 'المستخدم'];
+      } else return;
+
+      let csv = '\uFEFF' + headers.join(',') + '\n';
+      data.forEach(row => {
+        if (type === 'residents') csv += `${row.name},${row.idNumber},${row.phone},${row.email},${row.unit},${typeLabel(row.type)},${row.status}\n`;
+        else csv += `${logTypeLabel(row.type)},${row.name},${row.description},${new Date(row.timestamp).toLocaleString('ar-SA')},${row.user}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('success', 'تم تصدير البيانات');
+    }
+
+    // ===================== TOAST =====================
+    function showToast(type, message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + type;
+      const icons = { success: 'fa-check-circle', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation', info: 'fa-circle-info' };
+      toast.innerHTML = `<i class="fas ${icons[type] || 'fa-circle-info'}"></i><span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => { toast.style.animation = 'toastOut 0.3s forwards'; setTimeout(() => toast.remove(), 300); }, 4000);
+    }
+
+    // ===================== GLOBAL SEARCH =====================
+    function globalSearch(query) {
+      if (!query) return;
+      query = query.toLowerCase();
+      const results = [];
+      DB.residents.forEach(r => { if (r.name.toLowerCase().includes(query)) results.push({ type: 'ساكن', name: r.name, link: 'residents' }); });
+      DB.visitors.forEach(v => { if (v.name.toLowerCase().includes(query)) results.push({ type: 'زائر', name: v.name, link: 'visitors' }); });
+      DB.vehicles.forEach(v => { if (v.plate.toLowerCase().includes(query) || v.type.toLowerCase().includes(query)) results.push({ type: 'مركبة', name: v.plate + ' - ' + v.type, link: 'vehicles' }); });
+
+      if (results.length > 0) {
+        showToast('info', `تم العثور على ${results.length} نتيجة - انتقل إلى ${pageTitles[results[0].link]}`);
+        navigateTo(results[0].link);
+      }
+    }
+
+    // ===================== NOTIFICATIONS =====================
+    function toggleNotifications() {
+      showToast('info', 'لا توجد إشعارات جديدة');
+    }
+
+    function toggleUserMenu() {
+      // Could show dropdown
+    }
+
+    // ===================== INIT =====================
+    function initApp() {
+      updateDashboard();
+      // Set default dates for reports
+      const today = new Date().toISOString().slice(0, 10);
+      const lastWeek = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+      const reportFrom = document.getElementById('reportFrom');
+      const reportTo = document.getElementById('reportTo');
+      if (reportFrom) reportFrom.value = lastWeek;
+      if (reportTo) reportTo.value = today;
+
+      // Load settings
+      const s = DB.settings;
+      const sName = document.getElementById('settingComplexName');
+      const sAddr = document.getElementById('settingAddress');
+      const sPhone = document.getElementById('settingPhone');
+      if (sName) sName.value = s.complexName;
+      if (sAddr) sAddr.value = s.address;
+      if (sPhone) sPhone.value = s.phone;
+
+      // Update notification badge
+      const insideVisitors = DB.visitors.filter(v => v.status === 'inside').length;
+      document.getElementById('notifBadge').textContent = insideVisitors;
+    }
+
+    // Handle window resize for charts
+    window.addEventListener('resize', () => {
+      if (currentPage === 'dashboard') renderCharts();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllModals();
+      if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('globalSearch')?.focus();
+      }
+    });
+  </script>
+</body>
+</html>
