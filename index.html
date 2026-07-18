@@ -691,7 +691,6 @@ function Dash({ units, logs, longStay, notes, setUnits, toast, clock, playSound 
                 <td>${VTYPES[(u.visit && u.visit.vtype)] || (u.visit && u.visit.vtype) || "—"}</td>
                 <td>${(u.visit && u.visit.companions) || ((u.visit && u.visit.persons) > 1 ? u.visit.persons - 1 : "—")}</td>
                 <td>${(u.visit && u.visit.checkIn) ? u.visit.checkIn.slice(11, 16) : "—"}</td>
-                <td>${(u.visit && u.visit.staffName) || "—"}</td>
             </tr>`).join("");
         const vtypeCounts = occ.reduce((acc, u) => { const t = (u.visit && u.visit.vtype) || "other"; acc[t] = (acc[t] || 0) + 1; return acc; }, {});
         const summaryRowsHtml = Object.entries(VTYPES).map(([k, v]) => vtypeCounts[k] ? "<tr><td>" + v + "</td><td style='font-weight:700;color:#1a6fcc;'>" + vtypeCounts[k] + "</td></tr>" : "").join("");
